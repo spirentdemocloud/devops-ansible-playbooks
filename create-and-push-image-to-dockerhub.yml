@@ -1,0 +1,19 @@
+---
+- hosts: all
+
+  tasks:
+
+  - name: create docker image using war file
+    command: docker build -t color-of-the-day-image .
+    args:
+      chdir: /opt/docker
+
+  - name: create tag for image
+    command: docker tag  color-of-the-day-image spirentdemocloud/color-of-the-day-image
+
+  - name: push image to dockerhub
+    command: docker push spirentdemocloud/color-of-the-day-image
+
+  - name: remove docker images from ansible server
+    command: docker rmi color-of-the-day-image spirentdemocloud/color-of-the-day-image
+    ignore_errors: yes
